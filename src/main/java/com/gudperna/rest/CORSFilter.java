@@ -7,12 +7,20 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Provider
 public class CORSFilter implements ContainerResponseFilter {
 
    @Override
    public void filter(final ContainerRequestContext requestContext,
                       final ContainerResponseContext cres) throws IOException {
+
+
+   	if (requestContext.getMethod().equals("OPTIONS")) {
+		cres.setStatus(HttpServletResponse.SC_OK);
+	}
+
       cres.getHeaders().add("Access-Control-Allow-Origin", "*");
       cres.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
       cres.getHeaders().add("Access-Control-Allow-Credentials", "true");

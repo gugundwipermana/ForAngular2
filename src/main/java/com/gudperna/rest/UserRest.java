@@ -90,10 +90,20 @@ public class UserRest {
     }
 */
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUser() {
+        List<User> listUser = userService.getAll();
+        
+        GenericEntity<List<User>> list = new GenericEntity<List<User>>(listUser) { };
+        return Response.ok(list)
+            .build();
+    }
+
+
+    @OPTIONS
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUser2() {
         List<User> listUser = userService.getAll();
         
         GenericEntity<List<User>> list = new GenericEntity<List<User>>(listUser) { };

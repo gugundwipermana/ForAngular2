@@ -10,6 +10,9 @@ public interface UserDAO {
 	public void insert(User user);
 	public void edit(User user);
 	public void delete(int id);
+
+	public boolean cekUser(User user);
+	public User getByEmail(String email);
 }
 
 // /src/main/java/com/gudperna/dao/UserDAO.java

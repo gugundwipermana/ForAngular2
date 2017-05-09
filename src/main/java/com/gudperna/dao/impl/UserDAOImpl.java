@@ -147,4 +147,59 @@ public class UserDAOImpl implements UserDAO {
 			Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
+
+
+
+
+	/**
+	 * ----------------------------------
+	 * For Authentication
+	 * ----------------------------------
+	 * cekUser()
+	 * getByEmail()
+	 *
+	 */
+	public boolean cekUser(User user) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		boolean user_exists = false;
+
+		try {
+			ps = connection.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
+			ps.setString(1, user.getEmail());
+			ps.setString(2, user.getPassword());
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				return true;
+			}
+
+		} catch(SQLException ex) {
+			Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+	 	}
+
+	 	return false;
+	}
+
+	public User getByEmail(String email) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		User user = new User();
+		try {
+			ps = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				user.setId(rs.getInt("id"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setName(rs.getString("name"));
+			}
+		} catch(SQLException ex) {
+			Logger.getLogger(UserDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+	 	}
+
+		return user;
+	}
 }
